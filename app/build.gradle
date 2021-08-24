@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-   // id 'dagger.hilt.android.plugin'
+    // id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -84,6 +84,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.14.0"
     implementation "com.google.accompanist:accompanist-pager:0.17.0"
     implementation "com.google.accompanist:accompanist-pager-indicators:0.17.0"
+    implementation "com.google.accompanist:accompanist-placeholder:0.17.0"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.17.0"
+    implementation "com.google.accompanist:accompanist-navigation-material:0.17.0"
 
     //Dagger - Hilt
     /*

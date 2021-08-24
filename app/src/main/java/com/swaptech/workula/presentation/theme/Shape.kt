@@ -1,4 +1,4 @@
-package com.swaptech.workula.presentation.ui.theme
+package com.swaptech.workula.presentation.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Shapes

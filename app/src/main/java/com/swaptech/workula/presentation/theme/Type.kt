@@ -1,4 +1,4 @@
-package com.swaptech.workula.presentation.ui.theme
+package com.swaptech.workula.presentation.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

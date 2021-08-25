@@ -5,6 +5,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,8 +14,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.swaptech.workula.DrawerItem
+import com.swaptech.workula.di.viewModel.ViewModelFactory
 import com.swaptech.workula.presentation.navigation.WorkulaNavGraph
 import com.swaptech.workula.presentation.screens.auth.AuthScreen
+import com.swaptech.workula.presentation.screens.auth.AuthViewModel
 import com.swaptech.workula.presentation.screens.rootscreens.RootScreen
 import com.swaptech.workula.presentation.theme.WorkulaTheme
 
@@ -23,7 +26,9 @@ import com.swaptech.workula.presentation.theme.WorkulaTheme
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun WorkulaApp() {
+fun WorkulaApp(
+    viewModelFactory: ViewModelFactory
+) {
     WorkulaTheme {
         val allScreens = WorkulaNavGraph.values().toList()
         val navController = rememberNavController()
@@ -32,7 +37,8 @@ fun WorkulaApp() {
 
         Scaffold {
             WorkulaNavHost(
-                navController = navController
+                navController = navController,
+                viewModelFactory = viewModelFactory
             )
         }
     }
@@ -44,7 +50,8 @@ fun WorkulaApp() {
 @ExperimentalPagerApi
 @Composable
 fun WorkulaNavHost(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModelFactory: ViewModelFactory
 ) {
     //TODO: Replace condition with isAuthorized flag
     NavHost(
@@ -53,11 +60,11 @@ fun WorkulaNavHost(
     ) {
         composable(WorkulaNavGraph.Auth.name) {
             AuthScreen(
-                onTopButtonClick = {
-                    navController.navigate(DrawerItem.toString()) {
-                        launchSingleTop = true
-                    }
-                }
+                navController = navController,
+                authViewModel = viewModel(
+                    modelClass = AuthViewModel::class.java,
+                    factory = viewModelFactory
+                )
             )
         }
 

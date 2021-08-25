@@ -44,6 +44,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -59,7 +61,7 @@ fun WorkulaTextField(
     modifier: Modifier = Modifier,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
-    hint: String = ""
+    hint: String = "",
 ) {
     val (text, setText) = rememberSaveable { mutableStateOf("") }
     OutlinedTextField(
@@ -70,6 +72,61 @@ fun WorkulaTextField(
         singleLine = singleLine,
         label = {
             Text(hint)
+        },
+        shape = RoundedCornerShape(20.dp)
+    )
+}
+
+@Composable
+fun WorkulaTextField(
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = false,
+    hint: String = "",
+    text: String,
+    setText: (String) -> Unit
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = text,
+        onValueChange = setText,
+        maxLines = maxLines,
+        singleLine = singleLine,
+        label = {
+            Text(hint)
+        },
+        shape = RoundedCornerShape(20.dp)
+    )
+}
+
+@Composable
+fun WorkulaPasswordTextField(
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = false,
+    hint: String = "",
+    text: String,
+    setText: (String) -> Unit
+) {
+    val passwordVisibility = rememberSaveable {
+        mutableStateOf(false)
+    }
+    OutlinedTextField(
+        modifier = modifier,
+        value = text,
+        onValueChange = setText,
+        maxLines = maxLines,
+        singleLine = singleLine,
+        label = { Text(hint) },
+        visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            WorkulaIconButton(
+                onClick = { passwordVisibility.value = !passwordVisibility.value },
+                painter = painterResource(
+                    id = if (passwordVisibility.value) R.drawable.ic_baseline_visibility_off_24 else R.drawable.ic_baseline_visibility_24
+
+                )
+            )
         },
         shape = RoundedCornerShape(20.dp)
     )

@@ -8,19 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.swaptech.workula.domain.interactor.UserInteractor
 import com.swaptech.workula.domain.models.Session
 import com.swaptech.workula.domain.models.SignUpModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(
     private val userInteractor: UserInteractor
-): ViewModel() {
+) : ViewModel() {
     var needRegistration by mutableStateOf(false)
-    private set
+        private set
 
     var userSession: Session? by mutableStateOf(null)
-    private set
+        private set
+
     fun changeRegistrationStatus() {
         needRegistration = !needRegistration
     }

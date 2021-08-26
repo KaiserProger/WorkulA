@@ -16,7 +16,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.swaptech.workula.DrawerItem
 import com.swaptech.workula.di.viewModel.ViewModelFactory
 import com.swaptech.workula.presentation.navigation.WorkulaNavGraph
-import com.swaptech.workula.presentation.screens.auth.AuthScreen
+import com.swaptech.workula.presentation.screens.auth.AuthorizationScreen
 import com.swaptech.workula.presentation.screens.auth.AuthViewModel
 import com.swaptech.workula.presentation.screens.rootscreens.RootScreen
 import com.swaptech.workula.presentation.theme.WorkulaTheme
@@ -56,12 +56,12 @@ fun WorkulaNavHost(
     //TODO: Replace condition with isAuthorized flag
     NavHost(
         navController = navController,
-        startDestination = if (!false) WorkulaNavGraph.Auth.name else WorkulaNavGraph.Root.name
+        startDestination = if (!false) WorkulaNavGraph.Authorization.name else WorkulaNavGraph.Root.name
     ) {
-        composable(WorkulaNavGraph.Auth.name) {
-            AuthScreen(
+        composable(WorkulaNavGraph.Authorization.name) {
+            AuthorizationScreen(
                 navController = navController,
-                authViewModel = viewModel(
+                viewModel = viewModel(
                     modelClass = AuthViewModel::class.java,
                     factory = viewModelFactory
                 )

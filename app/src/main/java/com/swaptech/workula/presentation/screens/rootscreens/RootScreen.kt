@@ -7,7 +7,9 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +20,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.swaptech.workula.DrawerItem
 import com.swaptech.workula.HomeDestinations
 import com.swaptech.workula.presentation.ext.replaceTo
-import com.swaptech.workula.presentation.screens.rootscreens.notifications.NotificationsScreen
 import com.swaptech.workula.presentation.screens.rootscreens.about.AboutScreen
 import com.swaptech.workula.presentation.screens.rootscreens.addchat.AddChatScreen
 import com.swaptech.workula.presentation.screens.rootscreens.chat.ChatScreen
@@ -26,6 +27,7 @@ import com.swaptech.workula.presentation.screens.rootscreens.createsuperchat.Cre
 import com.swaptech.workula.presentation.screens.rootscreens.createtodo.CreateTodoScreen
 import com.swaptech.workula.presentation.screens.rootscreens.edittodo.EditTodoScreen
 import com.swaptech.workula.presentation.screens.rootscreens.home.HomeScreen
+import com.swaptech.workula.presentation.screens.rootscreens.notifications.NotificationsScreen
 import com.swaptech.workula.presentation.screens.rootscreens.profile.ProfileScreen
 
 @ExperimentalFoundationApi
@@ -33,11 +35,14 @@ import com.swaptech.workula.presentation.screens.rootscreens.profile.ProfileScre
 @ExperimentalMaterialApi
 @ExperimentalPagerApi
 @Composable
-fun RootScreen() {
+fun RootScreen(
+    viewModel: RootViewModel = viewModel()
+) {
     val navController = rememberNavController()
     val systemUiController = rememberSystemUiController()
     val useDarkTheme = MaterialTheme.colors.isLight
     val statusBarColor = MaterialTheme.colors.primary
+
     Scaffold {
         val homeRoute = "${DrawerItem.Home.name}/{title}"
         val home = DrawerItem.Home.name
@@ -60,13 +65,17 @@ fun RootScreen() {
                     navController = navController,
                     title = title,
                     onDrawerItemClicked = { route ->
-                        navController.replaceTo(route)
+                        val navigationRoute = if (route == home) {
+                            buildRouteWithArgs(home, viewModel.selectedSuperchatName)
+                        } else route
+                        navController.replaceTo(navigationRoute)
                     },
                     onChatItemClicked = {
                         navController.navigate(HomeDestinations.SelectedChat.name)
                     },
                     onBottomSheetListItemClicked = { selectedItem ->
                         navController.replaceTo(buildRouteWithArgs(home, selectedItem))
+                        viewModel.onSelectedSuperchatNameChanged(selectedItem)
                     }
                 )
             }
@@ -75,8 +84,8 @@ fun RootScreen() {
                 ProfileScreen(
                     onDrawerItemClicked = { route ->
                         //TODO
-                        val navigationRoute = if(route == home) {
-                            buildRouteWithArgs(home, "test")
+                        val navigationRoute = if (route == home) {
+                            buildRouteWithArgs(home, viewModel.selectedSuperchatName)
                         } else route
                         navController.replaceTo(navigationRoute)
                     }
@@ -86,9 +95,8 @@ fun RootScreen() {
             composable(DrawerItem.About.name) {
                 AboutScreen(
                     onDrawerItemClicked = { route ->
-                        //TODO
-                        val navigationRoute = if(route == home) {
-                            buildRouteWithArgs(home, "hui")
+                        val navigationRoute = if (route == home) {
+                            buildRouteWithArgs(home, viewModel.selectedSuperchatName)
                         } else route
                         navController.replaceTo(navigationRoute)
                     }
@@ -139,6 +147,9 @@ fun RootScreen() {
             darkIcons = useDarkTheme
         )
         systemUiController.systemBarsDarkContentEnabled = false
+        systemUiController.setNavigationBarColor(
+            color = Color.Black
+        )
     }
 }
 

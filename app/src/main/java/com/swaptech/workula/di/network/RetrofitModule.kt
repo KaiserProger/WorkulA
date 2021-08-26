@@ -1,9 +1,10 @@
 package com.swaptech.workula.di.network
 
 import com.google.gson.Gson
-import com.swaptech.workula.BASE_URL
+import com.swaptech.workula.BuildConfig
 import dagger.Module
 import dagger.Provides
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,15 +18,19 @@ class RetrofitModule {
 
     @Provides
     fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient = OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build()
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        requestInterceptor: Interceptor
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(httpLoggingInterceptor)
+        .addInterceptor(requestInterceptor)
+        .build()
 
     @Provides
     fun provideRetrofitClient(
         okHttpClient: OkHttpClient,
         gson: Gson
     ): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(BuildConfig.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()

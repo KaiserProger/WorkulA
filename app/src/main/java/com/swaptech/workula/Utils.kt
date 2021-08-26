@@ -1,5 +1,8 @@
 package com.swaptech.workula
 
+import android.content.Context
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,3 +32,13 @@ class ComposableLambdaProvider : PreviewParameterProvider<@Composable () -> Unit
     override val count: Int
         get() = values.count()
 }
+
+fun showLongToast(
+    context: Context,
+    @StringRes textResource: Int
+) = Toast.makeText(context, context.resources.getText(textResource), Toast.LENGTH_LONG).show()
+
+fun showShortToast(
+    context: Context,
+    @StringRes textResource: Int
+) = Toast.makeText(context, context.resources.getText(textResource), Toast.LENGTH_SHORT).show()

@@ -30,4 +30,7 @@
     <string name="create_todo">Create TODO</string>
     <string name="confirm">Confirm</string>
     <string name="create_new_todo">Create new TODO</string>
+    <string name="entered_email_is_not_valid">Entered email is not valid</string>
+    <string name="entered_password_is_not_valid">Entered password is not valid or length less than 8</string>
+    <string name="entered_name_is_not_valid">Entered name is not valid or length more than 20</string>
 </resources>

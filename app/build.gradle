@@ -7,7 +7,7 @@ plugins {
 
 android {
     compileSdk 31
-
+    //Alert: if you want build 'release' build please add 'signingConfig' here
     defaultConfig {
         applicationId "com.swaptech.workula"
         minSdk 24
@@ -23,8 +23,19 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            //Alert don't build 'release' build without .jks file!!!
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "CLIENT_SECRET", "\"4533bc-Qrgjj34-43Y&6f^gfjn\"")
+            buildConfigField("String", "BASE_URL", "\"https://workula.herokuapp.com/\"")
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            minifyEnabled false
+            buildConfigField("String", "CLIENT_SECRET", "\"4533bc-Qrgjj34-43Y&6f^gfjn\"")
+            buildConfigField("String", "BASE_URL", "\"https://workula.herokuapp.com/\"")
         }
     }
     compileOptions {

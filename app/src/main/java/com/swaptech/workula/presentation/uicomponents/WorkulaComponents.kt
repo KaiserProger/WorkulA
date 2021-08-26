@@ -54,7 +54,8 @@ import com.swaptech.workula.R
 import com.swaptech.workula.ThemedPreview
 import com.swaptech.workula.domain.models.TodoModel
 import com.swaptech.workula.presentation.theme.HintColor
-import com.swaptech.workula.presentation.theme.MessageBackground
+import com.swaptech.workula.presentation.theme.LightGray
+import com.swaptech.workula.presentation.theme.cardSurface
 
 @Composable
 fun WorkulaTextField(
@@ -297,13 +298,13 @@ fun ChatTextField(
             unfocusedIndicatorColor = Color.Transparent
         ),
         keyboardOptions = KeyboardOptions(
-            capitalization = KeyboardCapitalization.Characters
+            capitalization = KeyboardCapitalization.Sentences
         ),
         placeholder = {
             Text(
                 text = hint,
                 fontWeight = FontWeight.Bold,
-                color = HintColor
+                color = MaterialTheme.colors.cardSurface
             )
         }
     )
@@ -348,7 +349,7 @@ fun Message(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(MessageBackground)
+            .background(MaterialTheme.colors.cardSurface)
             .width(236.dp)
             .padding(8.dp),
     ) {
@@ -483,7 +484,7 @@ fun TODOCard(
                 onLongClick = { onLongClick(todoModel) }
             )
             .fillMaxWidth(),
-        color = MessageBackground
+        color = MaterialTheme.colors.cardSurface
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -507,7 +508,8 @@ fun TODOCard(
                 ),
                 text = stringResource(id = R.string.performer_s),
                 fontSize = 15.sp,
-                color = Color.Black.copy(alpha = 0.5f)
+                color = if (MaterialTheme.colors.isLight) Color.Black.copy(alpha = 0.5f)
+                else MaterialTheme.colors.onSurface
             )
             Row(
                 modifier = Modifier.padding(

@@ -4,8 +4,10 @@ import com.swaptech.workula.data.api.user.UserApi
 import com.swaptech.workula.data.repository.UserRepository
 import com.swaptech.workula.domain.models.Session
 import com.swaptech.workula.domain.models.SignUpModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
@@ -13,5 +15,5 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     override suspend fun signUp(signUpModel: SignUpModel): Flow<Session> = flow {
         emit(userApi.signUp(signUpModel))
-    }
+    }.flowOn(Dispatchers.IO)
 }

@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.swaptech.workula.R
 
 enum class WorkulaNavGraph {
-    Auth,
+    Authorization,
     Root;
 
     enum class WorkulaDrawerScreensNavGraph(@DrawableRes val icon: Int) {
@@ -28,9 +28,9 @@ enum class WorkulaNavGraph {
     companion object {
         fun fromRoute(route: String?): WorkulaNavGraph =
             when (route?.substringBefore("/")) {
-                Auth.name -> Auth
+                Authorization.name -> Authorization
                 Root.name -> Root
-                null -> Auth
+                null -> Authorization
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
             }
     }

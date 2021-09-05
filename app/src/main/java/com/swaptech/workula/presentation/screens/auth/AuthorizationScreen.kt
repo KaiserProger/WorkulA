@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -24,7 +25,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.swaptech.workula.R
-import com.swaptech.workula.domain.models.SignUpModel
 import com.swaptech.workula.presentation.navigation.WorkulaNavGraph
 import com.swaptech.workula.presentation.theme.WorkulaTheme
 import com.swaptech.workula.presentation.uicomponents.WorkulaButton
@@ -35,6 +35,7 @@ import com.swaptech.workula.presentation.utils.Validator
 import com.swaptech.workula.showLongToast
 import com.swaptech.workula.showShortToast
 
+//TODO: Remove viewModel param
 @Composable
 fun AuthorizationScreen(
     navController: NavHostController,
@@ -93,11 +94,9 @@ private fun AuthorizationScreen(
                             }
                             else -> {
                                 viewModel.signUp(
-                                    SignUpModel(
-                                        name = name,
-                                        email = email,
-                                        password = password
-                                    )
+                                    name = name,
+                                    email = email,
+                                    password = password
                                 )
                             }
                         }
@@ -124,7 +123,10 @@ private fun AuthorizationScreen(
                                 showLongToast(context, R.string.entered_password_is_not_valid)
                             }
                             else -> {
-                                //TODO: Add registration
+                                viewModel.signIn(
+                                    email = email,
+                                    password = password
+                                )
                             }
                         }
                         navController.navigate(WorkulaNavGraph.Root.name)
@@ -202,21 +204,6 @@ fun RegistrationScreen(
 }
 
 @Composable
-fun WelcomeHeader() {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Text(
-            modifier = Modifier.padding(20.dp),
-            text = stringResource(R.string.welcome),
-            fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.h4
-        )
-    }
-}
-
-@Composable
 fun AuthorizationScreenBase(
     content: @Composable () -> Unit = {},
     onActionButtonClicked: () -> Unit,
@@ -229,30 +216,32 @@ fun AuthorizationScreenBase(
     setPassword: (String) -> Unit
 ) {
     Column {
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            content()
-            WorkulaTextField(
-                modifier = Modifier.padding(8.dp),
-                hint = stringResource(R.string.email),
-                singleLine = true,
-                maxLines = 1,
-                text = email,
-                setText = setEmail
-            )
-            WorkulaPasswordTextField(
-                modifier = Modifier.padding(8.dp),
-                hint = stringResource(R.string.password),
-                singleLine = true,
-                maxLines = 1,
-                text = password,
-                setText = setPassword
-            )
+            item {
+                content()
+                WorkulaTextField(
+                    modifier = Modifier.padding(8.dp),
+                    hint = stringResource(R.string.email),
+                    singleLine = true,
+                    maxLines = 1,
+                    text = email,
+                    setText = setEmail
+                )
+                WorkulaPasswordTextField(
+                    modifier = Modifier.padding(8.dp),
+                    hint = stringResource(R.string.password),
+                    singleLine = true,
+                    maxLines = 1,
+                    text = password,
+                    setText = setPassword
+                )
+            }
         }
         Column {
             WorkulaButton(
@@ -274,6 +263,21 @@ fun AuthorizationScreenBase(
                 }
             )
         }
+    }
+}
+
+@Composable
+fun WelcomeHeader() {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            modifier = Modifier.padding(20.dp),
+            text = stringResource(R.string.welcome),
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.h4
+        )
     }
 }
 

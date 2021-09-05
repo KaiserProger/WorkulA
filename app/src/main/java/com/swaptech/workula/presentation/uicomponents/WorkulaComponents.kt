@@ -53,8 +53,6 @@ import androidx.compose.ui.unit.sp
 import com.swaptech.workula.R
 import com.swaptech.workula.ThemedPreview
 import com.swaptech.workula.domain.models.TodoModel
-import com.swaptech.workula.presentation.theme.HintColor
-import com.swaptech.workula.presentation.theme.LightGray
 import com.swaptech.workula.presentation.theme.cardSurface
 
 @Composable

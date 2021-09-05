@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.swaptech.workula.domain.interactor.UserInteractor
 import com.swaptech.workula.domain.models.Session
+import com.swaptech.workula.domain.models.SignInModel
 import com.swaptech.workula.domain.models.SignUpModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,9 +26,29 @@ class AuthViewModel @Inject constructor(
         needRegistration = !needRegistration
     }
 
-    fun signUp(signUpModel: SignUpModel) {
+    fun signUp(name: String, email: String, password: String) {
         viewModelScope.launch {
-            userInteractor.signUp(signUpModel).collect { session ->
+            userInteractor.signUp(
+                SignUpModel(
+                    name = name,
+                    email = email,
+                    password = password
+                )
+            ).collect { session ->
+                userSession = session
+            }
+        }
+    }
+
+    fun signIn(email: String, password: String) {
+        viewModelScope.launch {
+            userInteractor.signIn(
+                SignInModel(
+                    email = email,
+                    password = password
+                )
+            ).collect { session ->
+                //TODO: Save session in DB
                 userSession = session
             }
         }

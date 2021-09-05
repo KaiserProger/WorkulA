@@ -1,5 +1,8 @@
 package com.swaptech.workula.presentation.theme
 
+import android.os.Build
+import android.os.Build.VERSION.SDK_INT
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
@@ -35,7 +38,6 @@ fun WorkulaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composabl
     } else {
         LightColorPalette
     }
-
     MaterialTheme(
         colors = colors,
         typography = Typography,

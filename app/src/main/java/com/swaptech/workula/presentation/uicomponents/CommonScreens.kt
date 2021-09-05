@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -88,31 +89,33 @@ fun CreateEditChat(
             )
         }
     ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                ProfileIcon(
-                    modifier = Modifier.padding(
-                        top = 24.dp,
-                        bottom = 24.dp
-                    ),
-                    onClick = { /*TODO*/ },
-                    size = 160.dp
+        LazyColumn {
+            item {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    ProfileIcon(
+                        modifier = Modifier.padding(
+                            top = 24.dp,
+                            bottom = 24.dp
+                        ),
+                        onClick = { /*TODO*/ },
+                        size = 160.dp
+                    )
+                }
+                WorkulaTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    hint = textFieldHint,
+                    maxLines = 1,
+                    singleLine = true
                 )
             }
-            WorkulaTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                hint = textFieldHint,
-                maxLines = 1,
-                singleLine = true
-            )
         }
     }
 }
@@ -137,49 +140,51 @@ fun AddEditTodo(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Column(
+            LazyColumn(
                 modifier = Modifier.padding(
                     start = 32.dp,
                     end = 32.dp,
                 )
             ) {
-                WorkulaTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            top = 16.dp,
-                            bottom = 16.dp
-                        ),
-                    hint = stringResource(id = R.string.todo_name)
-                )
-                WorkulaTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(
-                            bottom = 32.dp
-                        ),
-                    hint = stringResource(id = R.string.todo_id)
-                )
-                Text(
-                    modifier = Modifier.padding(bottom = 4.dp),
-                    text = stringResource(id = R.string.performer_s),
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row {
-                        SelectedProfileIconWithAction(
-                            size = 40.dp,
-                            actionIconPainter = painterResource(id = R.drawable.remove_icon)
+                item {
+                    WorkulaTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                top = 16.dp,
+                                bottom = 16.dp
+                            ),
+                        hint = stringResource(id = R.string.todo_name)
+                    )
+                    WorkulaTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                bottom = 32.dp
+                            ),
+                        hint = stringResource(id = R.string.todo_id)
+                    )
+                    Text(
+                        modifier = Modifier.padding(bottom = 4.dp),
+                        text = stringResource(id = R.string.performer_s),
+                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.5f)
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row {
+                            SelectedProfileIconWithAction(
+                                size = 40.dp,
+                                actionIconPainter = painterResource(id = R.drawable.remove_icon)
+                            )
+                        }
+                        WorkulaIconButton(
+                            modifier = Modifier.size(40.dp),
+                            painter = painterResource(id = R.drawable.add_icon),
+                            onClick = {},
+                            tint = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
                         )
                     }
-                    WorkulaIconButton(
-                        modifier = Modifier.size(40.dp),
-                        painter = painterResource(id = R.drawable.add_icon),
-                        onClick = {},
-                        tint = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
-                    )
                 }
             }
             WorkulaButton(
